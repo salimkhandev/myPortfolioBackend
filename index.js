@@ -19,7 +19,7 @@ app.use(express.json())
 app.get('/',(req,res)=>{
 
 
-  res.send("Hello Salim ❤️")
+  res.send("Hello Salim ❤️ How are you")
 })
 
 app.post('/submit-form', async (req, res) => {
