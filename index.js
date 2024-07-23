@@ -39,14 +39,14 @@ app.post('/submit-form', async (req, res) => {
       res.json({ message: 'Captcha successfully verified' });
 
 
-      const newData=new MyModel({name:name,email:email,message:message}).save()
-  .then(() => console.log('Data saved successfully!'))
-  .catch(error => console.error('Error saving data:', error));
-
-
+      
+      
     } 
     else {
       console.log("❌");
+      const newData=new MyModel({name:name,email:email,message:message}).save()
+  .then(() => console.log('Data saved successfully!'))
+  .catch(error => console.error('Error saving data:', error));
       res.status(400).json({ message: 'Captcha verification failed' });
     }
   } catch (error) {
