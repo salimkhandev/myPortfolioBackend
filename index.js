@@ -7,7 +7,8 @@ const adminPanel=require('./AdminPanel')
 app.use('/admin',adminPanel);
 // use cros
 var cors = require('cors')
-const port = process.env.PORT ||3000;
+const port = process.env.PORT;
+
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors());
