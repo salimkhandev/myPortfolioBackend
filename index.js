@@ -1,28 +1,53 @@
 const express = require('express');
-const cors=require('cors');
-const MyModel = require('./model');
-
+const bodyParser = require('body-parser');
+const axios = require('axios');
 const app = express();
-app.use(express.urlencoded({ extended: true }));
-app.use(cors())
+const MyModel = require('./model');
+const adminPanel=require('./AdminPanel')
+app.use('/admin',adminPanel);
+// use cros
+var cors = require('cors')
+const port = process.env.PORT ||3000;
 
-app.use(express.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(cors());
+app.use(express.json())
 
 
 
+app.post('/submit-form', async (req, res) => {
+  // const recaptchaToken = req.body['g-recaptcha-response'];
+  const {name,email,message,recaptchaToken} = req.body;
+  console.log(recaptchaToken);
 
-const newData=new MyModel({name: 'Salim Khan',email: 'salim@gmail.com',message:"Hello my name is salim"}).save()
+  if (!recaptchaToken) {
+    return res.status(400).json({ message: 'No reCAPTCHA token provided' });
+  }
+
+  const secretKey = '6LfPzhUqAAAAAKUx6lOn3nisQJ859Xz3NbSJLdxn'; 
+  const verificationUrl = `https://www.google.com/recaptcha/api/siteverify?secret=${secretKey}&response=${recaptchaToken}`;
+
+  try {
+    const response = await axios.post(verificationUrl);
+    if (response.data.success) {
+      res.json({ message: 'Captcha successfully verified' });
+
+
+      const newData=new MyModel({name:name,email:email,message:message}).save()
   .then(() => console.log('Data saved successfully!'))
   .catch(error => console.error('Error saving data:', error));
 
 
-
-
-
-app.get('/', (req, res) => {
-  res.send('Hello, World!');
+    } 
+    else {
+      console.log("❌");
+      res.status(400).json({ message: 'Captcha verification failed' });
+    }
+  } catch (error) {
+    res.status(500).json({ message: 'Internal server error' });
+  }
 });
 
-app.listen(3000, () => {
-   console.log(`Server is running on http://localhost:3000`);
+app.listen(port, () => {
+  console.log(`Server is running on http://localhost:${port}`);
 });
