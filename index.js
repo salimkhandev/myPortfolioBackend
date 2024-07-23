@@ -14,6 +14,11 @@ app.use(cors());
 app.use(express.json())
 
 
+app.get('/',(req,res)=>{
+
+
+  res.send("Hello Salim")
+})
 
 app.post('/submit-form', async (req, res) => {
   // const recaptchaToken = req.body['g-recaptcha-response'];when not using react
