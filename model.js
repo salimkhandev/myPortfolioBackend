@@ -1,7 +1,7 @@
 const mongoose=require('mongoose');
 // Connection
 const connectionURI = 'mongodb+srv://salim:salim@myportfolio.3t3ddqi.mongodb.net/myPortfolio?retryWrites=true&w=majority&appName=MyPortfolio';
-mongoose.connect(connectionURI).then(()=>{console.log("connected")}).catch(()=>{console.log("connection failed");})
+mongoose.connect(connectionURI,, { useNewUrlParser: true, useUnifiedTopology: true }).then(()=>{console.log("connected")}).catch(()=>{console.log("connection failed");})
 
 
 
