@@ -16,7 +16,7 @@ app.use(express.json())
 
 
 app.post('/submit-form', async (req, res) => {
-  // const recaptchaToken = req.body['g-recaptcha-response'];
+  // const recaptchaToken = req.body['g-recaptcha-response'];when not using react
   const {name,email,message,recaptchaToken} = req.body;
   console.log(recaptchaToken);
 
